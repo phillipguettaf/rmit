@@ -1,33 +1,31 @@
 import java.io.PrintStream;
 import java.util.*;
-// 2 robot, 1 fortune, 3 macbook
-// robot fortuned mac mac mac fortune
 
 @SuppressWarnings("unused")
 public class BstMultiset<T> extends Multiset<T>
 {
-	public BstNode<T> root;
-	protected int count;
-	
-	public BstMultiset() {
-		
-	} // end of BstMultiset()
-
-	public void add(T item) {
-		
-		BstNode<T> newNode = new BstNode<T>(item);
-		
-		if(root == null)
-		{
-			root = newNode;
-			return;
-		}
-		
-		BstNode<T> current = root;
-		BstNode<T> parent = null;
+   public BstNode<T> root;
+   protected int count;
+   
+   public BstMultiset() {
       
-  		while(true)
-		{
+   } // end of BstMultiset()
+
+   public void add(T item) {
+      
+      BstNode<T> newNode = new BstNode<T>(item);
+      
+      if(root == null)
+      {
+         root = newNode;
+         return;
+      }
+      
+      BstNode<T> current = root;
+      BstNode<T> parent = null;
+      
+      while(true)
+      {
          String itemString = (String)item;
          String currentString = (String)current.item;
          parent = current;
@@ -38,15 +36,9 @@ public class BstMultiset<T> extends Multiset<T>
             return;
          }
          
-			
-         
-         
-        
-			if(itemString.compareTo(currentString) < 0)
-			{
-            
-				current = current.left;
-            //currentString = (String)current.item;
+         if(itemString.compareTo(currentString) < 0)
+         {
+            current = current.left;
             
             if(itemString.compareTo(currentString) == 0)
             {
@@ -54,18 +46,16 @@ public class BstMultiset<T> extends Multiset<T>
                return;
             }
             
-				if(current == null)
-				{
-					parent.left = newNode;
-					return;
-				}
-            
-            
-			}
-			
-			else
-			{
-				current = current.right;
+            if(current == null)
+            {
+               parent.left = newNode;
+               return;
+            }
+         }
+         
+         else
+         {
+            current = current.right;
             //String currentString = (String)current.item;
 
             if(itemString.compareTo(currentString) == 0)
@@ -73,25 +63,22 @@ public class BstMultiset<T> extends Multiset<T>
                current.updateCount(current.getCount() + 1);
                return;
             }
-				if(current == null)
-				{
-					parent.right = newNode;
-					return;
-				}
-            
-            
-			}
-		}
-	}
-	// end of add()
+            if(current == null)
+            {
+               parent.right = newNode;
+               return;
+            }
+         }
+      }
+   }
+   // end of add()
 
 
-	public int search(T item) {
+   public int search(T item) {
       
       BstNode current = root;
       String itemString = (String)item;
       String currentString = (String)current.item;
-      
       
       while(current != null) {
          
@@ -112,55 +99,54 @@ public class BstMultiset<T> extends Multiset<T>
       }
 
       return 0;
-	} // end of search()
+   } // end of search()
 
 
-	public void removeOne(T item) {
+   public void removeOne(T item) {
       
       BstNode current = root;
       
+      if (search(item) == 0)
+      {
+         System.out.println("here"); // this is always called
+         return;
+      }
       
-		if (search(item) == 0)
-		{
-         System.out.println("here");
-			return;
-		}
-		
-		//if only one exists, remove node, else decrement element count
-		if (search(item) == 1)
-		{
-			removeAll(item);
-		}
-		else
-		{
+      //if only one exists, remove node, else decrement element count
+      if (search(item) == 1)
+      {
+         removeAll(item);
+      }
+      else
+      {
          while(true) {
             
             String itemString = (String)item;
             String currentString = (String)current.item;
-         
+            
             if(currentString.equals(itemString))
             {
                current.updateCount(current.getCount() - 1);
                return;
             }
-         
+            
             else if (currentString.compareTo(itemString) < 0)
             {
                current = current.left;
             }
-         
+            
             else
             {
                current = current.right;
             }
          }
-		}
-	} // end of removeOne()
-	
-	
-	public void removeAll(T item) {
-		// Implement me!
-	} // end of removeAll()
+      }
+   } // end of removeOne()
+   
+   
+   public void removeAll(T item) {
+      // Implement me!
+   } // end of removeAll()
    
 
    public void getPrint(BstNode root)
@@ -174,15 +160,13 @@ public class BstMultiset<T> extends Multiset<T>
          getPrint(root.right);
       }
    }
-         
-         
-
-	public void print(PrintStream out) {
+   
+   public void print(PrintStream out) {
       
       getPrint(root);
    }
-      
-	
-	} // end of print()
+   
+   
+} // end of print()
 
 // end of class BstMultiset
