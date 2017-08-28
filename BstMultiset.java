@@ -122,6 +122,7 @@ public class BstMultiset<T> extends Multiset<T>
       
 		if (search(item) == 0)
 		{
+         System.out.println("here");
 			return;
 		}
 		
