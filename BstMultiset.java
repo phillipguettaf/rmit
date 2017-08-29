@@ -110,14 +110,13 @@ public class BstMultiset<T> extends Multiset<T>
          return;
       }
       
+      
       BstNode<T> current = root;
-      BstNode<T> parent = null;
       
       while(true)
       {
          String itemString = (String)item;
          String currentString = (String)current.item;
-         parent = current;
          
          if(itemString.compareTo(currentString) == 0)
          {
@@ -151,9 +150,140 @@ public class BstMultiset<T> extends Multiset<T>
    
    
    public void removeAll(T item) {
-      // Implement me!
+      
+      //find node to be deleted
+      
+      BstNode<T> parent = root;
+      BstNode<T> current = root;
+      
+      String itemString = (String)item;
+      String currentString = (String)current.item;
+      
+      boolean leftChild = false;
+      
+      while(currentString.compareTo(itemString) != 0)
+      {
+         parent = current;
+         
+         if(currentString.compareTo(itemString) < 0)
+         {
+            leftChild = true;
+            current = current.left;
+         }
+         
+         else
+         {
+            leftChild = false;
+            current = current.right;
+         }
+      }
+      //node to be removed has no children
+      
+      if(current.left == null && current.right == null)
+      {
+         if(current == root)
+         {
+            root = null;
+         }
+         
+         if(leftChild)
+         {
+            parent.left = null;
+         }
+         
+         else
+         {
+            parent.right = null;
+         }
+      }
+      
+      
+      //node to be removed has one child
+      
+      if(current.right == null)
+      {
+         if(current == root)
+         {
+            root = current.left;
+         }
+         
+         else if(leftChild)
+         {
+            parent.left = current.left;
+         }
+         
+         else
+         {
+            parent.right = current.right;
+         }
+      }
+      
+      else if(current.left == null)
+      {
+         if(current == root)
+         {
+            root = current.right;
+         }
+         
+         else if(leftChild)
+         {
+            parent.left = current.right;
+         }
+         
+         else
+         {
+            parent.right = current.right;
+         }
+      }
+      
+      //node to be removed has two children
+      
+      else if(current.left != null && current.right != null)
+      {
+         BstNode<T> replacement = getReplacement(current);
+         
+         if(current == root)
+         {
+            root = replacement;
+         }
+         
+         else if(leftChild)
+         {
+            parent.left = replacement;
+         }
+         
+         else
+         {
+            parent.right = replacement;
+         }
+         
+         replacement.left = current.left;
+      }
+      
    } // end of removeAll()
    
+   
+   public BstNode getReplacement(BstNode remove)
+   {
+      BstNode<T> replacement = null;
+      BstNode<T> replaceParent = null;
+      BstNode<T> current = remove.left;
+      
+      while(current != null)
+      {
+         replaceParent = replacement;
+         replacement = current;
+         current = current.left;
+      }
+      
+      if(replacement != remove.right)
+      {
+         replaceParent.left = replacement.right;
+         replacement.right = remove.right;
+      }
+      
+      return replacement;
+   }
 
    public void getPrint(BstNode root)
    {
