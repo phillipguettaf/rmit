@@ -56,7 +56,6 @@ public class BstMultiset<T> extends Multiset<T>
          else
          {
             current = current.right;
-            //String currentString = (String)current.item;
 
             if(itemString.compareTo(currentString) == 0)
             {
@@ -77,10 +76,12 @@ public class BstMultiset<T> extends Multiset<T>
    public int search(T item) {
       
       BstNode current = root;
-      String itemString = (String)item;
-      String currentString = (String)current.item;
+
       
       while(current != null) {
+         
+         String itemString = (String)item;
+         String currentString = (String)current.item;
          
          if(currentString.compareTo(itemString) == 0)
          {
@@ -104,40 +105,45 @@ public class BstMultiset<T> extends Multiset<T>
 
    public void removeOne(T item) {
       
-      BstNode current = root;
-      
-      if (search(item) == 0)
+      if(root == null)
       {
-         System.out.println("here"); // this is always called
          return;
       }
       
-      //if only one exists, remove node, else decrement element count
-      if (search(item) == 1)
+      BstNode<T> current = root;
+      BstNode<T> parent = null;
+      
+      while(true)
       {
-         removeAll(item);
-      }
-      else
-      {
-         while(true) {
+         String itemString = (String)item;
+         String currentString = (String)current.item;
+         parent = current;
+         
+         if(itemString.compareTo(currentString) == 0)
+         {
+            current.updateCount(current.getCount() - 1);
+            return;
+         }
+         
+         if(itemString.compareTo(currentString) < 0)
+         {
+            current = current.left;
             
-            String itemString = (String)item;
-            String currentString = (String)current.item;
-            
-            if(currentString.equals(itemString))
+            if(itemString.compareTo(currentString) == 0)
+            {
+               current.updateCount(current.getCount() -1);
+               return;
+            }
+         }
+         
+         else
+         {
+            current = current.right;
+
+            if(itemString.compareTo(currentString) == 0)
             {
                current.updateCount(current.getCount() - 1);
                return;
-            }
-            
-            else if (currentString.compareTo(itemString) < 0)
-            {
-               current = current.left;
-            }
-            
-            else
-            {
-               current = current.right;
             }
          }
       }
