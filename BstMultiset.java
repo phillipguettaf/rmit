@@ -151,6 +151,8 @@ public class BstMultiset<T> extends Multiset<T>
    
    public void removeAll(T item) {
       
+    
+   
       //find node to be deleted
       
       BstNode<T> parent = root;
@@ -260,29 +262,32 @@ public class BstMultiset<T> extends Multiset<T>
          replacement.left = current.left;
       }
       
-   } // end of removeAll()
+      
+   }
+   // end of removeAll()
    
    
    public BstNode getReplacement(BstNode remove)
    {
       BstNode<T> replacement = null;
-      BstNode<T> replaceParent = null;
-      BstNode<T> current = remove.left;
+      BstNode<T> parent = null;
+      BstNode<T> current = remove.right;
       
       while(current != null)
       {
-         replaceParent = replacement;
+         parent = replacement;
          replacement = current;
          current = current.left;
       }
       
       if(replacement != remove.right)
       {
-         replaceParent.left = replacement.right;
+         parent.left = replacement.right;
          replacement.right = remove.right;
       }
       
       return replacement;
+         
    }
 
    public void getPrint(BstNode root)
